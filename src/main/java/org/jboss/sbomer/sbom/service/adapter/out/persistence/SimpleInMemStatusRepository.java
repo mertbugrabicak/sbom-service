@@ -6,12 +6,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import org.jboss.sbomer.sbom.service.adapter.in.rest.model.Page;
 import org.jboss.sbomer.sbom.service.core.domain.dto.EnhancementRecord;
 import org.jboss.sbomer.sbom.service.core.domain.dto.GenerationRecord;
 import org.jboss.sbomer.sbom.service.core.domain.dto.RequestRecord;
 import org.jboss.sbomer.sbom.service.core.domain.enums.EnhancementStatus;
 import org.jboss.sbomer.sbom.service.core.domain.enums.GenerationStatus;
-import org.jboss.sbomer.sbom.service.core.domain.model.Page;
 import org.jboss.sbomer.sbom.service.core.port.spi.StatusRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;

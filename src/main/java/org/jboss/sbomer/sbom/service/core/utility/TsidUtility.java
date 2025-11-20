@@ -31,12 +31,21 @@ public class TsidUtility {
     }
 
     /**
-     * Utility method to create a generation ID using Tsid, starting with R
+     * Utility method to create a generation request ID using Tsid, starting with R
      *
      * @return Tsid of generation request
      */
     public static String createUniqueGenerationRequestId() {
         return "R" + TsidCreator.getTsid1024().toString();
+    }
+
+    /**
+     * Utility method to create a enhancement ID using Tsid, starting with G
+     *
+     * @return Tsid of enhancement
+     */
+    public static String createUniqueEnhancementId() {
+        return "E" + TsidCreator.getTsid1024().toString();
     }
 
 }

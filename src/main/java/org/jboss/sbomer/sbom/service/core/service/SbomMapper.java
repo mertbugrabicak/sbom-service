@@ -19,6 +19,7 @@ import org.jboss.sbomer.sbom.service.core.domain.enums.EnhancementStatus;
 import org.jboss.sbomer.sbom.service.core.domain.enums.GenerationStatus;
 import org.jboss.sbomer.sbom.service.core.domain.enums.RequestStatus;
 import org.jboss.sbomer.sbom.service.core.port.spi.RecipeBuilder;
+import org.jboss.sbomer.sbom.service.core.utility.TsidUtility;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -43,6 +44,7 @@ public class SbomMapper {
         requestRecord.setId(requestsCreated.getData().getRequestId());
         requestRecord.setPublisherRecords(publisherRecords);
         requestRecord.setStatus(RequestStatus.NEW);
+        requestRecord.setCreationDate(requestsCreated.getContext().getTimestamp());
         return requestRecord;
     }
 
@@ -101,7 +103,7 @@ public class SbomMapper {
         if (enhancerSpecs != null) {
             for (int i = 0; i < enhancerSpecs.size(); i++) {
                 EnhancementRecord enhancementRecord = new EnhancementRecord();
-                enhancementRecord.setId(UUID.randomUUID().toString());
+                enhancementRecord.setId(TsidUtility.createUniqueEnhancementId());
                 enhancementRecord.setEnhancerName(enhancerSpecs.get(i).getName());
                 enhancementRecord.setEnhancerVersion(enhancerSpecs.get(i).getVersion());
                 enhancementRecord.setIndex(i); // Preserve order
@@ -143,7 +145,7 @@ public class SbomMapper {
                 .setType("GenerationCreated")
                 .setSource(ApplicationConstants.COMPONENT_NAME)
                 .setCorrelationId(correlationId)
-                .setEventId("1.0")
+                .setEventVersion("1.0")
                 .setTimestamp(generationRecord.getCreated()) // Use the Record's timestamp for consistency
                 .build();
 
@@ -167,7 +169,7 @@ public class SbomMapper {
                 .setType("EnhancementCreated")
                 .setSource(ApplicationConstants.COMPONENT_NAME)
                 .setCorrelationId(current.getRequestId())
-                .setEventId("1.0")
+                .setEventVersion("1.0")
                 .setTimestamp(Instant.now())
                 .build();
 
@@ -209,7 +211,7 @@ public class SbomMapper {
                 .setType("RequestsFinished")
                 .setSource(ApplicationConstants.COMPONENT_NAME)
                 .setCorrelationId(requestRecord.getId())
-                .setEventId("1.0")
+                .setEventVersion("1.0")
                 .setTimestamp(Instant.now())
                 .build();
 

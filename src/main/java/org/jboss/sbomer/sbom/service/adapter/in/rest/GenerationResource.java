@@ -8,6 +8,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.jboss.sbomer.events.common.ContextSpec;
 import org.jboss.sbomer.events.common.GenerationRequestSpec;
 import org.jboss.sbomer.events.common.PublisherSpec;
@@ -32,7 +36,7 @@ import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * JAX-RS Resource (REST API Adapter) for triggering SBOM generation.
+ * REST API Adapter for triggering SBOM generation.
  */
 @Path("/api/v1/generations")
 @ApplicationScoped
@@ -42,14 +46,19 @@ public class GenerationResource {
     @Inject
     GenerationProcessor generationProcessor; // The "Port"
 
-    /**
-     * Triggers a new SBOM generation from a REST request.
-     * @param request The DTO containing generation requests and publishers.
-     * @return A 202 Accepted response with the ID of the created request batch.
-     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(
+            summary = "Trigger SBOM Generation",
+            description = "Accepts a manifest of generation requests and publishers, converts them to internal events, and schedules them."
+    )
+    @APIResponse(
+            responseCode = "202",
+            description = "Request accepted. Returns the batch Request ID.",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(example = "{\"id\": \"req-12345\"}"))
+    )
+    @APIResponse(responseCode = "400", description = "Invalid payload or validation error")
     public Response triggerGeneration(@Valid GenerationRequestsDTO request) {
 
         log.info("Received REST request to trigger {} generation requests", request.generationRequests().size());

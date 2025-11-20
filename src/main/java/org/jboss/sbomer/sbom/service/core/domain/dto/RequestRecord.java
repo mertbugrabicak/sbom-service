@@ -1,5 +1,6 @@
 package org.jboss.sbomer.sbom.service.core.domain.dto;
 
+import java.time.Instant;
 import java.util.List;
 
 import org.jboss.sbomer.sbom.service.core.domain.enums.RequestStatus;
@@ -14,4 +15,5 @@ public class RequestRecord {
     private List<GenerationRecord> generationRecords;
     private List<PublisherRecord> publisherRecords;
     private RequestStatus status;
+    private Instant creationDate;
 }

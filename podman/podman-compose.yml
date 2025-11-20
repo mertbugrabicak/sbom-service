@@ -84,3 +84,22 @@ services:
       SCHEMA_REGISTRY_URL: http://schema-registry:8080/apis/registry/v2
     networks:
       - sbomer
+
+
+  kafka-ui:
+    image: ghcr.io/kafbat/kafka-ui:latest
+    ports:
+      - "8090:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: sbomer-local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      # Pointing to Apicurio's Confluent compatibility API for better UI integration
+      # Creates tab for schemas in the UI
+      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8080/apis/ccompat/v7
+    depends_on:
+      kafka:
+        condition: service_healthy
+      schema-registry:
+        condition: service_healthy
+    networks:
+      - sbomer

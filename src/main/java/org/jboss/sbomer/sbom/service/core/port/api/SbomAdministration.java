@@ -2,9 +2,9 @@ package org.jboss.sbomer.sbom.service.core.port.api;
 
 import java.util.List;
 
+import org.jboss.sbomer.sbom.service.adapter.in.rest.model.Page;
 import org.jboss.sbomer.sbom.service.core.domain.dto.GenerationRecord;
 import org.jboss.sbomer.sbom.service.core.domain.dto.RequestRecord;
-import org.jboss.sbomer.sbom.service.core.domain.model.Page;
 
 /**
  * Driving Port for SBOM Administration tasks.
