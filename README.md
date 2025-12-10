@@ -113,3 +113,24 @@ The orchestration moves through the following states via Kafka topics:
 * enhancement.update (Inbound <- Enhancer status)
 
 * requests.finished (Outbound -> Notification sent ONLY if all steps succeed)
+
+
+## Getting Started (Local Development)
+
+This component is designed to run alongside the wider SBOMer system using Podman Compose.
+
+### 1. Start the Infrastructure
+
+Run the local dev from the root of the project repository to set up the minikube environment:
+
+```shell script
+bash ./hack/setup-local-dev.sh
+```
+
+Then run the command below to start the podman-compose with the component build:
+
+```bash
+bash ./hack/run-compose-with-local-build.sh
+```
+
+This will spin up the manifest-storage-service on port 8085 along with the latest Quay images of the other components of the system.
