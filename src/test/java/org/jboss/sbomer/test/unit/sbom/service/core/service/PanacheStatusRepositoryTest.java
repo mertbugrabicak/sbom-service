@@ -183,4 +183,22 @@ public class PanacheStatusRepositoryTest {
         enhancementRecord.setId("dummy-id-123");
         statusRepository.saveEnhancement(enhancementRecord);
     }
+
+    @Test
+    @TestTransaction
+    void testSaveRequestWithChildren() {
+        // Create Parent
+        RequestRecord request = new RequestRecord();
+        request.setId("req-1");
+
+        // Create Child
+        GenerationRecord gen = new GenerationRecord();
+        gen.setId("gen-1");
+        gen.setRequestId("req-1"); // Link back
+
+        request.setGenerationRecords(List.of(gen));
+
+        // This shouldn't fail
+        statusRepository.saveRequestRecord(request);
+    }
 }

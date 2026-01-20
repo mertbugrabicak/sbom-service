@@ -56,6 +56,7 @@ public class PanacheStatusRepository implements StatusRepository {
     @Transactional
     public void saveRequestRecord(RequestRecord record) {
         RequestEntity requestEntity = mapper.toEntity(record);
+        // FIXME: Should use persist instead of merge to assure no accidental overwrites
         requestEntity = requestRepository.getEntityManager().merge(requestEntity);
         record.setId(requestEntity.getId());
         Optional.ofNullable(record.getGenerationRecords()).ifPresent(generationRecords -> generationRecords.forEach(this::saveGeneration));
@@ -93,6 +94,7 @@ public class PanacheStatusRepository implements StatusRepository {
     @Transactional
     public void saveGeneration(GenerationRecord record) {
         GenerationEntity generationEntity = generationMapper.toEntity(record);
+        // FIXME: Should use persist instead of merge to assure no accidental overwrites
         generationEntity = generationRepository.getEntityManager().merge(generationEntity);
         record.setId(generationEntity.getId());
         Optional.ofNullable(record.getEnhancements()).ifPresent(enhancementRecords ->  enhancementRecords.forEach(this::saveEnhancement));
@@ -245,6 +247,7 @@ public class PanacheStatusRepository implements StatusRepository {
     @Transactional
     public void saveEnhancement(EnhancementRecord record) {
         EnhancementEntity enhancementEntity = enhancementMapper.toEntity(record);
+        // FIXME: Should use persist instead of merge to assure no accidental overwrites
         enhancementEntity = enhancementRepository.getEntityManager().merge(enhancementEntity);
         record.setId(enhancementEntity.getId());
     }
